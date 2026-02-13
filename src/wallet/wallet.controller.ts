@@ -14,17 +14,14 @@ export class WalletController {
   }
 
   @Post('credit')
-  credit(@Body() body: AmountDto) {
-    return {
-      balance: this.walletService.credit(body.userId, body.amount),
-    };
+  async credit(@Body() body: AmountDto) {
+    const balance = await this.walletService.credit(body.userId, body.amount);
+    return { balance };
   }
 
   @Post('debit')
   async debit(@Body() body: AmountDto) {
     const wallet = await this.walletService.debit(body.userId, body.amount);
-    return {
-      balance: wallet.balance,
-    };
+    return { balance: wallet.balance };
   }
 }
